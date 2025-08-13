@@ -1,0 +1,61 @@
+.dashboard {
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+    .card {
+      padding: 1rem;
+      border-radius: 4px;
+      color: #fff;
+      .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .label {
+        margin-bottom: 0.5rem;
+      }
+      a {
+        color: #fff;
+        font-size: 0.9rem;
+      }
+    }
+    .teal { background: #009688; }
+    .green { background: #4caf50; }
+    .yellow { background: #ffc107; color: #000; }
+    .red { background: #f44336; }
+  }
+
+  .chart {
+    margin-top: 1rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+
+  .tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    .table-box {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 4px;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        th, td {
+          border: 1px solid #ddd;
+          padding: 0.5rem;
+          font-size: 0.9rem;
+        }
+        th {
+          background: #f4f6f9;
+        }
+      }
+    }
+  }
+}
