@@ -1,99 +1,108 @@
 <div class="layout" [class.sidebar-collapsed]="!sidebarOpen">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <!-- Sidebar -->
-   <aside class="sidebar">
-   <div class="sidebar-header">
-  <div class="logo">
-    <i class="fas fa-dollar-sign"></i>
-    <span>SiPrest</span>
-  </div>
-  <hr class="divider">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-dollar-sign"></i>
+        <span>SiPrest</span>
+      </div>
+      <hr class="divider">
+      <div class="user-info">
+        <img src="assets/profile.jpg" alt="Usuario">
+        <span class="username">Gustavo</span>
+      </div>
+      <hr class="divider">
+    </div>
 
-  <div class="user-info">
-    <img src="assets/profile.jpg" alt="Usuario">
-    <span class="username">Gustavo</span>
-  </div>
-  <hr class="divider">
-</div>
+    <nav class="menu">
+      <ul>
+        <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            [class.active]="activeMainItem === 'tablero'"
+            (click)="setActiveMain('tablero')">
+          <i class="fas fa-home"></i>
+          <span>Tablero principal</span>
+        </li>
 
-<nav class="menu">
-  <ul>
-    <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <i class="fas fa-home"></i>
-      <span>Tablero principal</span>
-    </li>
+        <li routerLink="/caja" routerLinkActive="active"
+            [class.active]="activeMainItem === 'caja'"
+            (click)="setActiveMain('caja')">
+          <i class="fas fa-cash-register"></i>
+          <span>Caja</span>
+        </li>
 
-    <li routerLink="/caja" routerLinkActive="active">
-      <i class="fas fa-cash-register"></i>
-      <span>Caja</span>
-    </li>
+        <li routerLink="/clientes" routerLinkActive="active"
+            [class.active]="activeMainItem === 'clientes'"
+            (click)="setActiveMain('clientes')">
+          <i class="fas fa-users"></i>
+          <span>Clientes</span>
+        </li>
 
-    <li routerLink="/clientes" routerLinkActive="active">
-      <i class="fas fa-users"></i>
-      <span>Clientes</span>
-    </li>
+        <!-- Prestamos con submenú -->
+        <li class="submenu-header"
+            [class.active]="activeMainItem === 'prestamos' && !childActive"
+            [class.active-parent]="activeMainItem === 'prestamos' && childActive"
+            (click)="togglePrestamos()">
+          <i class="fas fa-hand-holding-usd"></i>
+          <span>Prestamos</span>
+          <i class="fas" [class.fa-chevron-down]="prestamosOpen" [class.fa-chevron-right]="!prestamosOpen"></i>
+        </li>
 
-    <!-- Prestamos con submenú -->
-  <li class="submenu-header"
-    [class.open]="prestamosOpen && !childActive"
-    [class.child-active]="childActive"
-    (click)="togglePrestamos()">
-  <i class="fas fa-hand-holding-usd"></i>
-  <span>Prestamos</span>
-  <i class="fas" [class.fa-chevron-down]="prestamosOpen" [class.fa-chevron-right]="!prestamosOpen"></i>
-</li>
+        <ul class="submenu" [class.open]="prestamosOpen">
+          <li routerLink="/prestamos/solicitud" routerLinkActive="active" (click)="selectChild()">
+            <i class="far fa-circle"></i>
+            <span>Solicitud/Prestamo</span>
+          </li>
+          <li routerLink="/prestamos/listado" routerLinkActive="active" (click)="selectChild()">
+            <i class="far fa-circle"></i>
+            <span>Listado Prestamos</span>
+          </li>
+          <li routerLink="/prestamos/aprobar" routerLinkActive="active" (click)="selectChild()">
+            <i class="far fa-circle"></i>
+            <span>Aprobar S/P</span>
+          </li>
+        </ul>
 
-<ul class="submenu" [class.open]="prestamosOpen">
-  <li routerLink="/prestamos/solicitud" routerLinkActive="active" (click)="selectChild()">
-    <i class="far fa-circle"></i>
-    <span>Solicitud/Prestamo</span>
-  </li>
-  <li routerLink="/prestamos/listado" routerLinkActive="active" (click)="selectChild()">
-    <i class="far fa-circle"></i>
-    <span>Listado Prestamos</span>
-  </li>
-  <li routerLink="/prestamos/aprobar" routerLinkActive="active" (click)="selectChild()">
-    <i class="far fa-circle"></i>
-    <span>Aprobar S/P</span>
-  </li>
-</ul>
+        <li routerLink="/empresa" routerLinkActive="active"
+            [class.active]="activeMainItem === 'empresa'"
+            (click)="setActiveMain('empresa')">
+          <i class="fas fa-building"></i>
+          <span>Empresa</span>
+        </li>
 
+        <li routerLink="/moneda" routerLinkActive="active"
+            [class.active]="activeMainItem === 'moneda'"
+            (click)="setActiveMain('moneda')">
+          <i class="fas fa-coins"></i>
+          <span>Moneda</span>
+        </li>
 
+        <li routerLink="/backup" routerLinkActive="active"
+            [class.active]="activeMainItem === 'backup'"
+            (click)="setActiveMain('backup')">
+          <i class="fas fa-database"></i>
+          <span>Backup</span>
+        </li>
 
+        <li routerLink="/mantenimiento" routerLinkActive="active"
+            [class.active]="activeMainItem === 'mantenimiento'"
+            (click)="setActiveMain('mantenimiento')">
+          <i class="fas fa-cog"></i>
+          <span>Mantenimiento</span>
+        </li>
 
-    <li routerLink="/empresa" routerLinkActive="active">
-      <i class="fas fa-building"></i>
-      <span>Empresa</span>
-    </li>
-
-    <li routerLink="/moneda" routerLinkActive="active">
-      <i class="fas fa-coins"></i>
-      <span>Moneda</span>
-    </li>
-
-    <li routerLink="/backup" routerLinkActive="active">
-      <i class="fas fa-database"></i>
-      <span>Backup</span>
-    </li>
-
-    <li routerLink="/mantenimiento" routerLinkActive="active">
-      <i class="fas fa-cog"></i>
-      <span>Mantenimiento</span>
-    </li>
-
-    <li routerLink="/reportes" routerLinkActive="active">
-      <i class="fas fa-file-alt"></i>
-      <span>Reportes</span>
-    </li>
-  </ul>
-</nav>
-
-
+        <li routerLink="/reportes" routerLinkActive="active"
+            [class.active]="activeMainItem === 'reportes'"
+            (click)="setActiveMain('reportes')">
+          <i class="fas fa-file-alt"></i>
+          <span>Reportes</span>
+        </li>
+      </ul>
+    </nav>
   </aside>
 
- <!-- Main Content -->
+  <!-- Main Content -->
   <div class="main">
     <header class="topbar">
       <button class="hamburger" (click)="toggleSidebar()">

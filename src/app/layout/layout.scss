@@ -61,97 +61,71 @@
       }
     }
 
-    .menu {
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
 
-        li {
-          padding: 0.75rem 1rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          transition: background 0.2s;
+      li {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background 0.2s;
+        color: #fff; // Texto blanco por defecto
 
-          i {
-            margin-right: 0.75rem;
-            transition:
-              margin 0.3s ease,
-              font-size 0.3s ease;
-          }
+        i {
+          margin-right: 0.75rem;
+          transition:
+            margin 0.3s ease,
+            font-size 0.3s ease;
+        }
 
-          span {
-            transition: opacity 0.3s ease;
-          }
+        span {
+          transition: opacity 0.3s ease;
+        }
 
-          &:hover {
-            background-color: #009dff;
-          }
+        &:hover {
+          background-color: #009dff; // 🔵 Azul en hover
+          color: #fff;
+        }
 
-          &.active {
-            background-color: #009dff;
-          }
+        &.active {
+          background-color: #007acc; // 🔵 Azul más oscuro para activo
+          color: #fff;
+        }
+
+        /* 🔹 Este es el color gris claro cuando un hijo está activo */
+        &.active-parent {
+          background-color: #5e5d5d96; // Gris bajo (padre con hijo activo)
+          color: #fff;
         }
       }
 
-      /* Submenú */
-      ul.submenu {
+      &.submenu {
         padding-left: 1.5rem;
         background-color: #34495e;
 
         li {
-          padding: 0.5rem 1rem;
-          display: flex;
-          align-items: center;
-          color: white;
-          font-size: 1rem;
-          transition: background 0.2s;
-
-          // &:hover {
-          //   background-color: #1abc9c;
-          // }
-
           &.active {
-            background-color: #009dff;
+            background-color: #009dff; // 🔵 Azul para hijo activo
+            color: #fff;
 
-            /* Cambiar círculo vacío a lleno */
+            /* 🔹 Rellenar bolita */
             i.fa-circle {
               font-family: "Font Awesome 5 Free";
-              font-weight: 900;
+              font-weight: 900; // Círculo sólido
             }
           }
-
-          i {
-            margin-right: 0.5rem;
-            font-size: 0.85rem;
-          }
         }
       }
+    }
 
-      /* Animación apertura suave */
-      ul.submenu {
-        overflow: hidden;
-        max-height: 0;
-        opacity: 0;
-        transition:
-          max-height 0.3s ease,
-          opacity 0.3s ease;
-
-        &.open {
-          max-height: 500px;
-          opacity: 1;
-        }
-      }
-
-      /* Estado activo cuando solo está abierto */
-      .submenu-header.open {
-        background-color: #009dff;
-      }
-
-      /* Estado activo cuando hay un hijo seleccionado */
-      .submenu-header.child-active {
-        background-color: #5e5d5d96;
+    /* Control de apertura del submenú */
+    .submenu {
+      display: none;
+      &.open {
+        display: block;
       }
     }
   }

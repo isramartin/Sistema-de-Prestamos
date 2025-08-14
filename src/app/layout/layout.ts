@@ -11,18 +11,27 @@ import { CommonModule } from '@angular/common';
 })
 export class Layout {
   sidebarOpen = true;
+  prestamosOpen = false;
+  childActive = false;
+  activeMainItem: string | null = null; // nuevo
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  prestamosOpen = false;
-
-  togglePrestamos() {
-    this.prestamosOpen = !this.prestamosOpen;
+  setActiveMain(item: string) {
+    this.activeMainItem = item;
+    this.prestamosOpen = false; // cerramos prestamos si se abre otro menú
+    this.childActive = false;
   }
 
-  childActive = false;
+  togglePrestamos() {
+    // marcar prestamos como activo
+    this.activeMainItem = 'prestamos';
+    this.childActive = false;
+    // abrir/cerrar submenu
+    this.prestamosOpen = !this.prestamosOpen;
+  }
 
   selectChild() {
     this.childActive = true;
