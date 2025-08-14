@@ -10,13 +10,10 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       {
         path: 'prestamos',
-        component: Prestamo,
         children: [
-          {
-            path: 'crear',
-            loadComponent: () =>
-              import('./prestamos/crear/crear').then((m) => m.Crear),
-          },
+          { path: 'solicitud', component: Prestamo },
+        //   { path: 'listado', component: ListadoPrestamosComponent },
+        //   { path: 'aprobar', component: AprobarPrestamosComponent },
         ],
       },
     ],

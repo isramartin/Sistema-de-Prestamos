@@ -15,4 +15,16 @@ export class Layout {
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
   }
+
+  prestamosOpen = false;
+
+  togglePrestamos() {
+    this.prestamosOpen = !this.prestamosOpen;
+  }
+
+  childActive = false;
+
+  selectChild() {
+    this.childActive = true;
+  }
 }
