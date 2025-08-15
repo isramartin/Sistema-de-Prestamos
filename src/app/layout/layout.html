@@ -41,6 +41,7 @@
 
         <!-- Prestamos con submenú -->
         <li class="submenu-header"
+        [class.open]="prestamosOpen"
             [class.active]="activeMainItem === 'prestamos' && !childActive"
             [class.active-parent]="activeMainItem === 'prestamos' && childActive"
             (click)="togglePrestamos()">
