@@ -100,6 +100,19 @@
           background-color: #5e5d5d96; // Gris bajo (padre con hijo activo)
           color: #fff;
         }
+
+        /* 🔹 Ajuste especial para cabeceras con flecha */
+        &.submenu-header {
+          justify-content: space-between; /* separa texto e icono de flecha */
+
+          i:first-child {
+            margin-right: 0.75rem; /* espacio entre icono inicial y texto */
+          }
+
+          i:last-child {
+            margin-left: auto; /* empuja flecha a la derecha */
+          }
+        }
       }
 
       &.submenu {
@@ -121,11 +134,35 @@
       }
     }
 
-    /* Control de apertura del submenú */
     .submenu {
-      display: none;
+      max-height: 0;
+      overflow: hidden;
+      background-color: #34495e;
+      transition: max-height 0.3s ease-in-out;
+
       &.open {
-        display: block;
+        max-height: 500px; /* lo bastante grande para mostrar todo el contenido */
+      }
+
+      li {
+        padding: 0.5rem 2rem;
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 0.9rem;
+
+        &:hover {
+          background-color: #1abc9c;
+        }
+
+        &.active {
+          background-color: #16a085;
+        }
+
+        i {
+          margin-right: 0.5rem;
+          font-size: 0.75rem;
+        }
       }
     }
   }
@@ -217,6 +254,10 @@
       .username {
         display: none;
       }
+    }
+
+    .menu ul li span {
+      display: none;
     }
 
     .menu {
