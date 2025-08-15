@@ -111,7 +111,16 @@
 
           i:last-child {
             margin-left: auto;
-            transition: transform 0.4s ease 0.1s; /* 🔹 Transición suave de la flecha */
+            transition: transform 0.5s ease; /* 🔹 Transición suave de la flecha */
+          }
+
+          i.arrow {
+            margin-left: auto;
+            transition: transform 0.5s ease;
+          }
+
+          &.open i.arrow {
+            transform: rotate(90deg);
           }
         }
       }
@@ -139,17 +148,17 @@
       max-height: 0;
       overflow: hidden;
       background-color: #34495e;
-      transition:
-        max-height 0.5s ease-in-out,
-        opacity 0.3s ease-in-out;
       opacity: 0;
+      transition:
+        max-height 0.6s ease,
+        opacity 0.6s ease;
 
       &.open {
-        max-height: 500px; /* lo suficientemente grande */
+        max-height: 500px; /* suficientemente grande */
         opacity: 1;
         transition:
-          max-height 0.5s ease-in-out,
-          opacity 0.4s ease-in-out 0.1s; /* 🔹 espera un poco antes de desvanecerse */
+          max-height 0.6s ease,
+          opacity 0.6s ease;
       }
 
       li {
