@@ -36,4 +36,28 @@ export class Layout {
   selectChild() {
     this.childActive = true;
   }
+
+  cajaOpen: boolean = false;
+  toggleCaja(): void {
+    this.cajaOpen = !this.cajaOpen;
+    if (this.cajaOpen) {
+      this.activeMainItem = 'caja';
+    }
+  }
+
+  mantenimientoOpen: boolean = false;
+  toggleMantenimiento(): void {
+    this.mantenimientoOpen = !this.mantenimientoOpen;
+    if (this.mantenimientoOpen) {
+      this.activeMainItem = 'mantenimiento';
+    }
+  }
+
+  reportesOpen: boolean = false;
+  toggleReportes(): void {
+    this.reportesOpen = !this.reportesOpen;
+    if (this.reportesOpen) {
+      this.activeMainItem = 'reportes';
+    }
+  }
 }
