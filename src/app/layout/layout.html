@@ -38,18 +38,18 @@
         </li>
 
         <ul class="submenu" [class.open]="cajaOpen">
+          <li routerLink="/caja/apertura" routerLinkActive="active" (click)="selectChild()">
+            <i class="far fa-circle"></i>
+            <span>Apertura</span>
+          </li>
           <li routerLink="/caja/movimientos" routerLinkActive="active" (click)="selectChild()">
             <i class="far fa-circle"></i>
-            <span>Movimientos</span>
+            <span>Movimeintos</span>
           </li>
-          <li routerLink="/caja/cierre" routerLinkActive="active" (click)="selectChild()">
-            <i class="far fa-circle"></i>
-            <span>Cierre Diario</span>
-          </li>
-          <li routerLink="/caja/historial" routerLinkActive="active" (click)="selectChild()">
+          <!-- <li routerLink="/caja/historial" routerLinkActive="active" (click)="selectChild()">
             <i class="far fa-circle"></i>
             <span>Historial</span>
-          </li>
+          </li> -->
         </ul>
 
         <li routerLink="/clientes" routerLinkActive="active"

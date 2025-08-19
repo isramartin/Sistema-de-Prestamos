@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { Layout } from './layout/layout';
 import { HomeComponent } from './home/components/home.component'; // ajusta ruta
 import { Prestamo } from './prestamos/prestamos';
+import { Movimientos } from './caja/movimientos/movimientos';
+import { Apertura } from './caja/apertura/apertura';
+
 export const routes: Routes = [
   {
     path: '',
@@ -12,8 +15,17 @@ export const routes: Routes = [
         path: 'prestamos',
         children: [
           { path: 'solicitud', component: Prestamo },
-        //   { path: 'listado', component: ListadoPrestamosComponent },
-        //   { path: 'aprobar', component: AprobarPrestamosComponent },
+          //   { path: 'listado', component: ListadoPrestamosComponent },
+          //   { path: 'aprobar', component: AprobarPrestamosComponent },
+        ],
+      },
+
+      {
+        path: 'caja',
+        // component: Caja,
+        children: [
+          { path: 'apertura', component: Apertura },
+          { path: 'movimientos', component: Movimientos },
         ],
       },
     ],

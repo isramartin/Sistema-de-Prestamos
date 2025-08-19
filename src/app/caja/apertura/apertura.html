@@ -1,0 +1,113 @@
+<div class="apertura-container">
+  <div class="header">
+    <h2><i class="fas fa-cash-register"></i> Apertura de Caja</h2>
+    <button class="btn-nueva-apertura" (click)="abrirModalApertura()">
+      <i class="fas fa-plus"></i> Nueva Apertura
+    </button>
+  </div>
+
+  <div class="filtros">
+    <div class="filtro-group">
+      <label for="fechaInicio">Fecha Inicio:</label>
+      <input type="date" id="fechaInicio" [(ngModel)]="filtros.fechaInicio">
+    </div>
+    <div class="filtro-group">
+      <label for="fechaFin">Fecha Fin:</label>
+      <input type="date" id="fechaFin" [(ngModel)]="filtros.fechaFin">
+    </div>
+    <div class="filtro-group">
+      <label for="estado">Estado:</label>
+      <select id="estado" [(ngModel)]="filtros.estado">
+        <option value="">Todos</option>
+        <option value="abierto">Abierto</option>
+        <option value="cerrado">Cerrado</option>
+      </select>
+    </div>
+    <button class="btn-filtrar" (click)="filtrarRegistros()">
+      <i class="fas fa-filter"></i> Filtrar
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table-apertura">
+      <thead>
+        <tr>
+          <th>Monto Ini.</th>
+          <th>Ingreso</th>
+          <th>Egreso</th>
+          <th>Monto Préstamo</th>
+          <th>F. Apertura</th>
+          <th>F. Cierre</th>
+          <th>Cant. Prést.</th>
+          <th>Monto Total</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let registro of registrosFiltrados">
+          <td>{{ registro.montoInicial | currency }}</td>
+          <td>{{ registro.ingreso | currency }}</td>
+          <td>{{ registro.egreso | currency }}</td>
+          <td>{{ registro.montoPrestamo | currency }}</td>
+          <td>{{ registro.fechaApertura | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+         <td>{{ registro.fechaCierre ? (registro.fechaCierre | date:'dd/MM/yyyy HH:mm:ss') : '-' }}</td>
+          <td>{{ registro.cantidadPrestamos || '-' }}</td>
+          <td>{{ registro.montoTotal | currency }}</td>
+          <td>
+            <span [class]="'estado-' + registro.estado">
+              {{ registro.estado | uppercase }}
+            </span>
+          </td>
+          <td class="opciones">
+            <button class="btn-opcion" [disabled]="registro.estado === 'cerrado'" (click)="cerrarCaja(registro)">
+              <i class="fas fa-lock"></i> Cerrar
+            </button>
+            <button class="btn-opcion" (click)="verDetalle(registro)">
+              <i class="fas fa-eye"></i> Ver
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="paginacion">
+    <span>Mostrando ({{ paginaActual * registrosPorPagina + 1 }} a {{ (paginaActual + 1) * registrosPorPagina }}) total de {{ totalRegistros }} registros</span>
+    <div class="controles">
+      <button [disabled]="paginaActual === 0" (click)="paginaAnterior()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <span>Página {{ paginaActual + 1 }}</span>
+      <button [disabled]="(paginaActual + 1) * registrosPorPagina >= totalRegistros" (click)="paginaSiguiente()">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal para nueva apertura -->
+  <div class="modal" *ngIf="mostrarModal">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h3>Nueva Apertura de Caja</h3>
+        <button class="btn-cerrar" (click)="cerrarModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="guardarApertura()">
+          <div class="form-group">
+            <label for="montoInicial">Monto Inicial:</label>
+            <input type="number" id="montoInicial" [(ngModel)]="nuevaApertura.montoInicial" name="montoInicial" required>
+          </div>
+          <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea id="observaciones" [(ngModel)]="nuevaApertura.observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn-guardar">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
