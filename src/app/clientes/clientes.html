@@ -1,0 +1,144 @@
+<div class="card-mov">
+  <div class="card-head">
+    <h3>Clientes</h3>
+
+    <div class="actions-left">
+      <button class="btn btn-excel" title="Exportar a Excel">
+        <i class="fas fa-file-excel"></i>
+      </button>
+      <button class="btn btn-print" title="Imprimir">
+        <i class="fas fa-print"></i>
+      </button>
+
+      <div class="rows-select">
+        <label>Show</label>
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="10">10 rows</option>
+          <option [ngValue]="25">25 rows</option>
+          <option [ngValue]="50">50 rows</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions-right">
+      <label class="search">
+        <span>Buscar:</span>
+        <input type="text" [(ngModel)]="query" />
+      </label>
+
+      <button class="btn btn-primary" (click)="onNuevo()">
+        <i class="fas fa-plus"></i> Nuevo
+      </button>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="tabla-mov">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Email</th>
+          <th>RFC</th>
+          <th>Activo</th>
+          <th class="col-opts">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filtered">
+          <td>{{ row.id }}</td>
+          <td>{{ row.nombre }} {{ row.apellido }}</td>
+          <td>{{ row.telefono }}</td>
+          <td>{{ row.email }}</td>
+          <td>{{ row.rfc }}</td>
+          <td>{{ row.activo ? 'Sí' : 'No' }}</td>
+          <td class="opts">
+            <button class="icon edit" (click)="onEditar(row)">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="icon del" (click)="onEliminar(row)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="7" class="empty">Sin resultados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card-foot">
+    <div class="info">
+      Mostrando ({{ (page - 1) * pageSize + 1 }} a {{ Math.min(page * pageSize, clientes.length) }}) total de {{ clientes.length }} registros
+    </div>
+    <div class="pager">
+      <button class="link" (click)="prevPage()" [disabled]="page === 1">Anterior</button>
+      <input class="page-input" type="number" [(ngModel)]="page" min="1" />
+      <button class="link" (click)="nextPage()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="showForm" (click)="cerrarForm()"></div>
+<div class="modal" *ngIf="showForm">
+  <div class="modal-head">
+    <h4>{{ editingId ? 'Editar cliente' : 'Nuevo cliente' }}</h4>
+    <button class="close" (click)="cerrarForm()"><i class="fas fa-times"></i></button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="grid">
+      <label>
+        <span>Nombre *</span>
+        <input type="text" formControlName="nombre" />
+        <small class="err" *ngIf="form.get('nombre')?.touched && form.get('nombre')?.invalid">
+          Mínimo 3 caracteres.
+        </small>
+      </label>
+
+      <label>
+        <span>Apellido</span>
+        <input type="text" formControlName="apellido" />
+      </label>
+
+      <label>
+        <span>Teléfono</span>
+        <input type="text" formControlName="telefono" placeholder="Solo dígitos" />
+        <small class="err" *ngIf="form.get('telefono')?.touched && form.get('telefono')?.invalid">
+          Entre 7 y 15 dígitos.
+        </small>
+      </label>
+
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" />
+        <small class="err" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+          Email no válido.
+        </small>
+      </label>
+
+      <label>
+        <span>RFC</span>
+        <input type="text" formControlName="rfc" />
+      </label>
+
+      <label class="col-span-2">
+        <span>Dirección</span>
+        <input type="text" formControlName="direccion" />
+      </label>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="activo" />
+        <span>Activo</span>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn" (click)="cerrarForm()">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
