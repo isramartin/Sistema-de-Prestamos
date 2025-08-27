@@ -1,8 +1,11 @@
 .layout {
   display: flex;
   height: 100vh;
+  
 
   .sidebar {
+    flex: 0 0 240px;
+    position: sticky;
     background-color: #2d3e50;
     color: white;
     width: 240px;
