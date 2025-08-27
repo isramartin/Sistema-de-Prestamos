@@ -1,31 +1,79 @@
-<div class="caja-container">
-  <!-- Header del módulo -->
-  <div class="module-header">
-    <h2><i class="fas fa-cash-register"></i> Módulo de Movimientos</h2>
-    <div class="submenu-tabs">
-      <button 
-        [class.active]="currentSubmenu === 'movimientos'"
-        (click)="setActiveSubmenu('movimientos')"
-        routerLink="movimientos">
-        <i class="fas fa-exchange-alt"></i> Movimientos
+<div class="card-mov">
+  <div class="card-head">
+    <h3>Ingresos / Egresos</h3>
+
+    <div class="actions-left">
+      <button class="btn btn-excel">
+        <i class="fas fa-file-excel"></i>
       </button>
-      <button 
-        [class.active]="currentSubmenu === 'cierre'"
-        (click)="setActiveSubmenu('cierre')"
-        routerLink="cierre">
-        <i class="fas fa-lock"></i> Cierre Diario
+
+      <button class="btn btn-print">
+        <i class="fas fa-print"></i>
       </button>
-      <button 
-        [class.active]="currentSubmenu === 'historial'"
-        (click)="setActiveSubmenu('historial')"
-        routerLink="historial">
-        <i class="fas fa-history"></i> Historial
+
+      <div class="rows-select">
+        <label>Show</label>
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="10">10 rows</option>
+          <option [ngValue]="25">25 rows</option>
+          <option [ngValue]="50">50 rows</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions-right">
+      <label class="search">
+        <span>Buscar:</span>
+        <input type="text" [(ngModel)]="query" placeholder="" />
+      </label>
+
+      <button class="btn btn-primary" (click)="onNuevo()">
+        <i class="fas fa-plus"></i> Nuevo
       </button>
     </div>
   </div>
 
-  <!-- Contenido dinámico según submenú -->
-  <div class="module-content">
-    <router-outlet></router-outlet>
+  <div class="table-wrap">
+    <table class="tabla-mov">
+      <thead>
+        <tr>
+          <th>Tipo Movi.</th>
+          <th>Descripcion</th>
+          <th class="txt-right">Monto</th>
+          <th>Fecha</th>
+          <th>Estado Caja</th>
+          <th class="col-opts">Opciones</th>
+        </tr>
+      </thead>
+     <tbody>
+  <tr *ngFor="let row of filtered; let i = index">
+    <td>{{ row.tipo }}</td>
+    <td>{{ row.descripcion }}</td>
+    <td class="txt-right">{{ row.monto | number:'1.0-0' }}</td>
+    <td>{{ row.fecha }}</td>
+    <td>{{ row.estado }}</td>
+    <td class="opts">
+      <button class="icon edit" (click)="onEditar(row, i)">
+        <i class="fas fa-pen"></i>
+      </button>
+      <button class="icon del" (click)="onEliminar(row, i)">
+        <i class="fas fa-trash"></i>
+      </button>
+    </td>
+  </tr>
+</tbody>
+
+    </table>
+  </div>
+
+  <div class="card-foot">
+    <div class="info">
+      Mostrando (1 a 3) total de 3 registros
+    </div>
+    <div class="pager">
+      <button class="link" (click)="prevPage()" [disabled]="page===1">Anterior</button>
+      <input class="page-input" type="number" [(ngModel)]="page" min="1" />
+      <button class="link" (click)="nextPage()">Siguiente</button>
+    </div>
   </div>
 </div>
