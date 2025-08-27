@@ -1,42 +1,69 @@
+$sidebar-w: 240px;
+$sidebar-w-collapsed: 80px;
+$topbar-h: 50px;
+
+/* === Variables CSS para sincronizar todo y spine de fondo === */
+:root {
+  --sidebar-bg: #d1d2d3;
+}
+
+.layout {
+  --sidebar-current: #{$sidebar-w};
+  --sidebar-bg: #2d3e50; /* ← tu color actual del sidebar */
+}
+
+.layout::before {
+  /* “spine” fijo bajo el sidebar para que nunca se vea hueco */
+  content: "";
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sidebar-current);
+  background: var(--sb-bg);
+  z-index: 90;
+  transition: width 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+}
+
 .layout {
   display: flex;
-  height: 100vh;
-  
+  min-height: 100vh; // body scrollea
 
   .sidebar {
     flex: 0 0 240px;
-    position: sticky;
-    background-color: #2d3e50;
-    color: white;
-    width: 240px;
-    transition: all 0.3s ease;
+    position: fixed; // fijo al viewport
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh; // scroll interno
+    background-color: var(--sidebar-bg);
+    color: rgb(255, 255, 255);
+    width: var(--sidebar-current); // ← usa variable
+    transition: width 0.28s cubic-bezier(0.25, 0.8, 0.25, 1); // transiciona solo width
+    will-change: width;
     display: flex;
     flex-direction: column;
-    overflow: hidden; // Oculta el scroll general
+    overflow: hidden; // el scroll va en contenedor interno
 
     .sidebar-header {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       padding: 1rem;
-      flex-shrink: 0; // Evita que se encoja el header
+      flex-shrink: 0;
     }
 
     .menu-container {
-      flex: 1; // Toma el espacio restante
-      overflow-y: auto; // Scroll solo cuando sea necesario
-      padding-bottom: 1rem; // Espacio al final
+      flex: 1;
+      overflow-y: auto; // scroll independiente
+      padding-bottom: 1rem;
 
-      // Estilos para el scroll
       &::-webkit-scrollbar {
         width: 6px;
       }
-
       &::-webkit-scrollbar-thumb {
         background-color: rgba(255, 255, 255, 0.2);
         border-radius: 3px;
       }
-
       &::-webkit-scrollbar-track {
         background-color: transparent;
       }
@@ -90,7 +117,7 @@
 
     .menu-scroll-container {
       flex: 1;
-      overflow-y: auto;
+      overflow-y: auto; // scroll interno del menú
       display: flex;
       flex-direction: column;
       height: 0;
@@ -132,11 +159,9 @@
             &:hover {
               background-color: #009dff;
             }
-
             &.active {
               background-color: #007acc;
             }
-
             &.active-parent {
               background-color: #5e5d5d96;
             }
@@ -147,7 +172,6 @@
               i.arrow {
                 transition: transform 0.3s ease;
               }
-
               &.open i.arrow {
                 transform: rotate(90deg);
               }
@@ -200,7 +224,6 @@
             margin 0.3s ease,
             font-size 0.3s ease;
         }
-
         span {
           transition: opacity 0.3s ease;
         }
@@ -209,12 +232,10 @@
           background-color: #009dff;
           color: #fff;
         }
-
         &.active {
           background-color: #007acc;
           color: #fff;
         }
-
         &.active-parent {
           background-color: #5e5d5d96;
           color: #fff;
@@ -226,17 +247,14 @@
           i:first-child {
             margin-right: 0.75rem;
           }
-
           i:last-child {
             margin-left: auto;
             transition: transform 0.5s ease;
           }
-
           i.arrow {
             margin-left: auto;
             transition: transform 0.5s ease;
           }
-
           &.open i.arrow {
             transform: rotate(90deg);
           }
@@ -288,7 +306,6 @@
         &:hover {
           background-color: #1abc9c;
         }
-
         &.active {
           background-color: #16a085;
         }
@@ -306,15 +323,27 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    margin-left: var(--sidebar-current); // ← usa variable
+    transition: margin-left 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: margin-left;
+    position: relative;
 
     .topbar {
+      position: fixed; // fija la barra arriba
+      top: 0;
+      left: var(--sidebar-current); // ← usa variable
+      right: 0;
+      height: $topbar-h;
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: #1976d2;
       color: white;
       padding: 0 1rem;
-      height: 50px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: left 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: left;
 
       .toggle-btn {
         background: none;
@@ -352,23 +381,24 @@
     }
 
     .content {
-      padding: 1rem;
-      background-color: #f4f6f9;
       flex: 1;
+      background-color: #f4f6f9;
+      // deja espacio arriba para no quedar debajo de la topbar fija
+      padding: calc(#{$topbar-h} + 16px) 1rem 1rem; // 50px + 16px
+      // el scroll sigue siendo del body
     }
   }
 }
 
-/* Estado colapsado - Ajustes para el scroll */
+/* === Estado colapsado: solo cambiamos la variable; todo lo demás sigue la animación === */
 .layout.sidebar-collapsed {
+  --sidebar-current: #{$sidebar-w-collapsed};
+
   .sidebar {
-    width: 80px;
-
+    // si quieres desactivar scroll interno en colapsado, deja visible
     .menu-container {
-      overflow-y: visible; // Desactiva scroll cuando está colapsado
+      overflow-y: visible;
     }
-
-    // Resto de tus estilos existentes para el estado colapsado...
     i {
       font-size: 1.5rem;
     }
@@ -376,7 +406,6 @@
     .logo {
       justify-content: center;
       width: 100%;
-
       span {
         display: none;
       }
@@ -385,12 +414,10 @@
     .user-info {
       flex-direction: column;
       align-items: center;
-
       img {
         width: 50px;
         height: 50px;
       }
-
       .username {
         display: none;
       }
@@ -445,7 +472,6 @@
               &:hover {
                 background-color: #1abc9c;
               }
-
               &.active {
                 background-color: #16a085;
               }
@@ -459,6 +485,11 @@
         }
       }
     }
+  }
+
+  .main {
+    /* Ya no hace falta tocar margin-left ni .topbar left:
+       siguen la variable --sidebar-current y animan sincronizados */
   }
 }
 
@@ -485,12 +516,20 @@
     background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   }
-
   &:active {
     transform: scale(0.95);
   }
-
   &:hover i {
     transform: scale(1.1);
+  }
+}
+
+/* Accesibilidad: reduce animaciones si el usuario lo pide */
+@media (prefers-reduced-motion: reduce) {
+  .layout::before,
+  .layout .sidebar,
+  .layout .main,
+  .layout .main .topbar {
+    transition: none !important;
   }
 }
