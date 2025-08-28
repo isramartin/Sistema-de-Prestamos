@@ -1,32 +1,40 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 
 type Periodicidad = 'mensual' | 'quincenal' | 'semanal';
 type MetodoPago = 'efectivo' | 'transferencia' | 'caja';
 
 interface Cuota {
   numero: number;
-  fecha: string;  // dd/MM/yyyy
+  fecha: string;
   monto: number;
 }
 
 @Component({
   selector: 'app-solicitud',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgFor, NgIf],
   templateUrl: './solicitud.html',
-  styleUrls: ['./solicitud.scss'], // <- en plural
+  styleUrls: ['./solicitud.scss'],
 })
 export class Solicitud {
   private fb = inject(FormBuilder);
   Math = Math;
 
-  // opciones UI
-  periodicidades: { label: string; value: Periodicidad; factorAnual: number }[] = [
-    { label: 'Mensual',   value: 'mensual',   factorAnual: 12 },
+  periodicidades: {
+    label: string;
+    value: Periodicidad;
+    factorAnual: number;
+  }[] = [
+    { label: 'Mensual', value: 'mensual', factorAnual: 12 },
     { label: 'Quincenal', value: 'quincenal', factorAnual: 24 },
-    { label: 'Semanal',   value: 'semanal',   factorAnual: 52 },
+    { label: 'Semanal', value: 'semanal', factorAnual: 52 },
   ];
   metodosPago: { label: string; value: MetodoPago }[] = [
     { label: 'Efectivo', value: 'efectivo' },
@@ -34,48 +42,47 @@ export class Solicitud {
     { label: 'Caja', value: 'caja' },
   ];
 
-  // formulario
   form = this.fb.nonNullable.group({
-    // Datos del solicitante
     nombreCliente: ['', [Validators.required, Validators.minLength(3)]],
     identificacion: [''],
 
-    // Condiciones del préstamo
     monto: [0, [Validators.required, Validators.min(100)]],
-    tasaAnual: [30, [Validators.required, Validators.min(0), Validators.max(200)]], // %
-    plazo: [12, [Validators.required, Validators.min(1)]], // número de periodos
+    tasaAnual: [
+      30,
+      [Validators.required, Validators.min(0), Validators.max(200)],
+    ],
+    plazo: [12, [Validators.required, Validators.min(1)]],
     periodicidad: ['mensual' as Periodicidad, [Validators.required]],
     metodoPago: ['caja' as MetodoPago, [Validators.required]],
-    fechaDesembolso: [new Date().toISOString().slice(0, 10), [Validators.required]],
+    fechaDesembolso: [
+      new Date().toISOString().slice(0, 10),
+      [Validators.required],
+    ],
 
-    // Info económica
     ingresosMensuales: [0, [Validators.min(0)]],
     egresosMensuales: [0, [Validators.min(0)]],
 
-    // Otros
     destino: [''],
     comentarios: [''],
   });
 
-  // cálculos
-  cuotaEstim = 0;         // (por periodo)
+  cuotaEstim = 0;
   capacidadPago = 0;
-  tasaPeriodica = 0;      // (decimal)
+  tasaPeriodica = 0;
 
-  // resultados para panel de “calcular”
   montoPorCuota = 0;
   totalInteres = 0;
   totalPagar = 0;
   cuotas: Cuota[] = [];
 
   constructor() {
-    // Recalcula valores básicos en vivo
     this.form.valueChanges.subscribe(() => this.recalcular());
     this.recalcular();
   }
 
   private getFactorAnual(periodicidad: Periodicidad): number {
-    return this.periodicidades.find(p => p.value === periodicidad)!.factorAnual;
+    return this.periodicidades.find((p) => p.value === periodicidad)!
+      .factorAnual;
   }
 
   private amortizacion(P: number, r: number, n: number): number {
@@ -91,9 +98,8 @@ export class Solicitud {
     const n = Number(v.plazo) || 0;
     const per: Periodicidad = v.periodicidad ?? 'mensual';
 
-    // tasa por periodo a partir de la anual
     const factor = this.getFactorAnual(per);
-    this.tasaPeriodica = (tasaAnual / 100) / factor;
+    this.tasaPeriodica = tasaAnual / 100 / factor;
     this.cuotaEstim = this.amortizacion(P, this.tasaPeriodica, n);
 
     const ingresos = Number(v.ingresosMensuales) || 0;
@@ -101,14 +107,11 @@ export class Solicitud {
     this.capacidadPago = ingresos - egresos;
   }
 
-  // --- UI acciones ---
   buscarCliente(): void {
-    // aquí abres modal / autocomplete
     alert('Buscar cliente (demo)');
   }
 
   calcular(): void {
-    // Usa los valores ya recalculados para llenar panel y tabla
     const v = this.form.getRawValue();
     const P = Number(v.monto) || 0;
     const n = Number(v.plazo) || 0;
@@ -125,7 +128,12 @@ export class Solicitud {
     );
   }
 
-  private generarCuotas(n: number, monto: number, fechaISO: string, per: Periodicidad): Cuota[] {
+  private generarCuotas(
+    n: number,
+    monto: number,
+    fechaISO: string,
+    per: Periodicidad
+  ): Cuota[] {
     if (!n || n <= 0) return [];
     const base = new Date(fechaISO);
     const add = (d: Date, i: number) => {
@@ -136,10 +144,13 @@ export class Solicitud {
       return dt;
     };
     const fmt = (d: Date) =>
-      `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+      `${String(d.getDate()).padStart(2, '0')}/${String(
+        d.getMonth() + 1
+      ).padStart(2, '0')}/${d.getFullYear()}`;
 
     const out: Cuota[] = [];
-    for (let i = 1; i <= n; i++) out.push({ numero: i, fecha: fmt(add(base, i)), monto });
+    for (let i = 1; i <= n; i++)
+      out.push({ numero: i, fecha: fmt(add(base, i)), monto });
     return out;
   }
 
@@ -163,7 +174,10 @@ export class Solicitud {
   }
 
   guardar(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const payload = {
       ...this.form.getRawValue(),
       cuotaEstim: this.cuotaEstim,
