@@ -1,0 +1,202 @@
+$teal: #129eab;
+$teal-dark: #0f8a96;
+$border: #e5e7eb;
+$text: #2c3e50;
+
+.card {
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid $border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        color: $text;
+    }
+}
+
+.toolbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: space-between;
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .page-size {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+
+            select {
+                height: 34px;
+                border: 1px solid #cfd4da;
+                border-radius: 4px;
+                padding: 0 0.5rem;
+            }
+        }
+    }
+
+    .right {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .search-label {
+            color: #555;
+        }
+        .inp {
+            height: 34px;
+            border: 1px solid #cfd4da;
+            border-radius: 4px;
+            padding: 0 0.6rem;
+            width: 240px;
+        }
+    }
+}
+
+.btn {
+    height: 34px;
+    padding: 0 0.8rem;
+    border: 1px solid #cfd4da;
+    border-radius: 4px;
+    background: #f5f5f5;
+    cursor: pointer;
+    &:hover {
+        background: #eee;
+    }
+}
+
+.btn-icon {
+    width: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-wrap {
+    padding: 0.6rem;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+
+    thead th {
+        background: $teal;
+        color: #fff;
+        text-align: left;
+        padding: 0.6rem 0.75rem;
+        border-bottom: 1px solid $teal-dark;
+    }
+
+    tbody td {
+        padding: 0.55rem 0.75rem;
+        border-bottom: 1px solid $border;
+        color: #2f2f2f;
+    }
+
+    .right {
+        text-align: right;
+    }
+    .center {
+        text-align: center;
+    }
+
+    .empty {
+        text-align: center;
+        color: #777;
+        padding: 0.8rem;
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 0.35rem;
+    justify-content: center;
+
+    .icon {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #cfd4da;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background: #f3f3f3;
+        }
+        &.danger {
+            color: #c0392b;
+        }
+    }
+}
+
+/* Badges de estado */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    color: #fff;
+
+    &.aprobado {
+        background: #1abc9c;
+    }
+    &.finalizado {
+        background: #3498db;
+    }
+    &.anulado {
+        background: #e74c3c;
+    }
+    &.pendiente {
+        background: #f1c40f;
+        color: #34495e;
+    }
+}
+
+.table-footer {
+    padding: 0.6rem 0.9rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid $border;
+
+    .info {
+        color: #555;
+    }
+
+    .pager {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .page-indicator {
+            width: 42px;
+            text-align: center;
+            height: 34px;
+            border: 1px solid #cfd4da;
+            border-radius: 4px;
+            background: #fff;
+        }
+    }
+}

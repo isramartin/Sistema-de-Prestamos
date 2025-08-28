@@ -1,0 +1,93 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Listado de Prestamos por usuario</h3>
+
+    <div class="toolbar">
+      <div class="left">
+        <button class="btn btn-icon" (click)="exportCSV()" title="Exportar CSV">
+          <i class="fa fa-file-excel-o"></i>
+        </button>
+        <button class="btn btn-icon" (click)="print()" title="Imprimir">
+          <i class="fa fa-print"></i>
+        </button>
+
+        <div class="page-size">
+          <label>Ver</label>
+          <select [(ngModel)]="pageSize" (change)="setPageSize(pageSize)">
+            <option *ngFor="let opt of pageSizeOptions" [ngValue]="opt">{{ opt }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="right">
+        <label class="search-label">Buscar:</label>
+        <input class="inp" type="text" [(ngModel)]="query" placeholder="Escribe para filtrar..." />
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Nro Prestamo</th>
+          <th>Cliente</th>
+          <th class="right">Monto</th>
+          <th class="right">Interes</th>
+          <th class="center">Cuotas</th>
+          <th>F. Pago</th>
+          <th>Usuario</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th class="center">Opciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let r of filtered">
+          <td>{{ r.nro }}</td>
+          <td>{{ r.cliente }}</td>
+          <td class="right">{{ r.monto | number:'1.0-0' }}</td>
+          <td class="right">{{ r.interes | number:'1.0-2' }}</td>
+          <td class="center">{{ r.cuotas }}</td>
+          <td>{{ r.fpago }}</td>
+          <td>{{ r.usuario }}</td>
+          <td>{{ r.fecha }}</td>
+          <td>
+            <span class="badge" [ngClass]="r.estado">
+              {{ r.estado }}
+            </span>
+          </td>
+          <td class="center actions">
+            <button class="icon" title="Ver"        (click)="ver(r)"><i class="fa fa-eye"></i></button>
+            <button class="icon" title="Aprobar"    (click)="aprobar(r)"><i class="fa fa-check"></i></button>
+            <button class="icon" title="Pagos"      (click)="pagar(r)"><i class="fa fa-dollar"></i></button>
+            <button class="icon" title="Editar"     (click)="editar(r)"><i class="fa fa-pencil"></i></button>
+            <button class="icon" title="Correo"     (click)="correo(r)"><i class="fa fa-envelope"></i></button>
+            <button class="icon danger" title="Eliminar" (click)="eliminar(r)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="10" class="empty">Sin resultados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-footer">
+    <div class="info">
+      Mostrando
+      {{ (page - 1) * pageSize + (filtered.length ? 1 : 0) }}
+      a
+      {{ (page - 1) * pageSize + filtered.length }}
+      de {{ total }} registros
+    </div>
+
+    <div class="pager">
+      <button class="btn" (click)="prev()">Anterior</button>
+      <input class="page-indicator" [value]="page" readonly>
+      <button class="btn" (click)="next()">Siguiente</button>
+    </div>
+  </div>
+</div>
