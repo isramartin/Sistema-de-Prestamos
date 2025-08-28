@@ -167,9 +167,11 @@ label {
 }
 
 .grid-cond {
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 1rem;
-    row-gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 0.3fr);
+
+    column-gap: 2rem;
+    row-gap: 1.2rem;
     align-items: end;
 
     label > span {
@@ -180,22 +182,22 @@ label {
     .fecha-calc {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: 0.7rem;
+        gap: 2rem;
         align-items: end;
 
         .btn-calc {
             height: $control-h;
-            padding: 0 1rem;
+            padding: 0 1.2rem;
             white-space: nowrap;
-            min-width: 100px;
+            min-width: 110px;
         }
     }
 }
 
 .grid-res {
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 1rem;
-    row-gap: 1rem;
+    grid-template-columns: repeat(3, 0.3fr);
+    column-gap: 3rem;
+    row-gap: 2rem;
 }
 
 .btn {
