@@ -29,6 +29,13 @@
     <input class="inp readonly doc-inp" type="text" value="01" readonly />
   </div>
 
+  <clientes-modal
+  [open]="mostrarModalClientes"
+  [clientes]="clientesModal"
+  (close)="mostrarModalClientes = false"
+  (select)="onPickCliente($event)">
+</clientes-modal>
+
   <hr class="sep" />
 
   <h3 class="center-title">Informacion del Prestamo</h3>

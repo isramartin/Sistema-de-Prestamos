@@ -1,0 +1,75 @@
+<div class="overlay" *ngIf="open">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="title">
+        <strong>Lista de Clientes</strong>
+        <button class="add" type="button" title="Nuevo">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <button class="close" type="button" (click)="close.emit()" aria-label="Cerrar">
+        <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-toolbar">
+      <label class="rows">
+        Ver
+        <select [(ngModel)]="pageSize" (change)="onChangePageSize()">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+        </select>
+      </label>
+
+      <label class="search">
+        Buscar:
+        <input type="text" [(ngModel)]="query" (input)="setPage(1)" />
+      </label>
+    </div>
+
+    <div class="table-wrap">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Dni</th>
+            <th>Prestamo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of paged" (dblclick)="pick(c)">
+            <td>{{ c.id }}</td>
+            <td>{{ c.nombres }}</td>
+            <td>{{ c.dni }}</td>
+            <td>
+              <span class="badge" [class.badge-yellow]="c.conPrestamo" [class.badge-green]="!c.conPrestamo">
+                {{ c.conPrestamo ? 'CON PRESTAMO' : 'DISPONIBLE' }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="paged.length === 0">
+            <td colspan="4" class="empty">Sin resultados…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <div class="pager">
+        Mostrando {{ (page - 1) * pageSize + 1 | number }} a
+        {{ Math.min(page * pageSize, total) | number }}
+        total de {{ total | number }} registros
+      </div>
+
+      <div class="pagination">
+        <button class="btn" (click)="setPage(page - 1)">Anterior</button>
+        <input class="page" type="number" [ngModel]="page" (ngModelChange)="setPage($event)" />
+        <button class="btn" (click)="setPage(page + 1)">Siguiente</button>
+      </div>
+
+      <button class="btn btn-grey" (click)="close.emit()">Cerrar</button>
+    </div>
+  </div>
+</div>

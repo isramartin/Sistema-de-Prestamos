@@ -6,6 +6,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { ClientesModal, ClienteRow } from './modal/clientes-modal';
 
 type Periodicidad = 'mensual' | 'quincenal' | 'semanal';
 type MetodoPago = 'efectivo' | 'transferencia' | 'caja';
@@ -19,13 +20,47 @@ interface Cuota {
 @Component({
   selector: 'app-solicitud',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgFor, NgIf],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ClientesModal,
+    NgFor,
+    NgIf,
+  ],
   templateUrl: './solicitud.html',
   styleUrls: ['./solicitud.scss'],
 })
 export class Solicitud {
   private fb = inject(FormBuilder);
   Math = Math;
+
+  mostrarModalClientes = false;
+  clientesModal: ClienteRow[] = [
+    {
+      id: 10,
+      nombres: 'Marian Antonia Huchin Tamay',
+      dni: '0008',
+      conPrestamo: true,
+    },
+    { id: 9, nombres: 'leonardo', dni: '0025', conPrestamo: true },
+    { id: 8, nombres: 'juan caamal', dni: '09', conPrestamo: true },
+    { id: 7, nombres: 'josue', dni: '06', conPrestamo: true },
+    { id: 6, nombres: 'isra', dni: '01', conPrestamo: false },
+    { id: 1, nombres: 'Gustavo Masias', dni: '71993865', conPrestamo: false },
+  ];
+
+  buscarCliente() {
+    this.mostrarModalClientes = true;
+  }
+
+  onPickCliente(c: ClienteRow) {
+    this.form.patchValue({
+      nombreCliente: c.nombres,
+      identificacion: c.dni,
+    });
+    this.mostrarModalClientes = false;
+  }
 
   periodicidades: {
     label: string;
@@ -107,9 +142,9 @@ export class Solicitud {
     this.capacidadPago = ingresos - egresos;
   }
 
-  buscarCliente(): void {
-    alert('Buscar cliente (demo)');
-  }
+  // buscarCliente(): void {
+  //   alert('Buscar cliente (demo)');
+  // }
 
   calcular(): void {
     const v = this.form.getRawValue();
