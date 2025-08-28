@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 type Estado = 'aprobado' | 'finalizado' | 'anulado' | 'pendiente';
@@ -19,7 +19,8 @@ interface Prestamo {
 
 @Component({
   selector: 'app-lista',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, NgFor, NgIf],
   templateUrl: './lista.html',
   styleUrls: ['./lista.scss'],
 })
