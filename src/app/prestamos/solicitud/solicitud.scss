@@ -1,41 +1,37 @@
-/* ====== colores y bases iguales al diseño ====== */
-$teal: #129eab; /* barra y headers de tabla */
-$teal-dark: #0f8a96; /* hover y bordes */
-$border: #e5e7eb; /* gris de bordes */
+$teal: #129eab;
+$teal-dark: #0f8a96;
+$border: #e5e7eb;
 $text: #2c3e50;
 $placeholder: #a0a7b0;
 $readonly-bg: #f1f5f9;
 
-/* ====== barra superior ====== */
 .page-bar {
     background: $teal;
     color: #fff;
-    padding: 0.8rem 1rem;
+    padding: 0.9rem 1rem;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.9rem;
 
     h2 {
         margin: 0;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 1.06rem;
     }
 }
 
-/* ====== tarjeta ====== */
 .card {
     background: #fff;
     border: 1px solid $border;
     border-radius: 6px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
-    padding: 1rem;
+    padding: 1.1rem 1.2rem 1.2rem;
 }
 
-/* título de sección (banda superior) */
 .section-title {
     font-weight: 700;
     color: $text;
-    padding: 0.6rem 0.75rem;
+    padding: 0.65rem 0.75rem;
     border: 1px solid $border;
     border-radius: 4px;
     background: #f8fafc;
@@ -45,100 +41,185 @@ $readonly-bg: #f1f5f9;
 .sep {
     border: none;
     border-top: 1px solid $border;
-    margin: 1rem 0;
+    margin: 1.1rem 0;
 }
 
 .center-title {
     text-align: center;
-    margin: 0.6rem 0 1rem;
+    margin: 0.7rem 0 1.1rem;
     color: $text;
     font-weight: 700;
 }
 
-/* ====== inputs y labels ====== */
+$control-h: 42px;
+
 .inp {
     width: 100%;
-    height: 38px;
+    height: $control-h;
     border: 1px solid #cfd4da;
     border-radius: 4px;
-    padding: 0 0.6rem;
+    padding: 0 0.7rem;
     background: #fff;
-    font-size: 0.94rem;
+    font-size: 0.95rem;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 
     &::placeholder {
         color: $placeholder;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $teal;
+        box-shadow: 0 0 0 3px rgba(18, 158, 171, 0.12);
+    }
+
+    &:disabled,
+    &[readonly] {
+        background: $readonly-bg;
+        color: #4b5563;
     }
 }
 .readonly {
     background: $readonly-bg;
 }
 
+input[type="date"].inp {
+    line-height: $control-h;
+    padding-right: 0.6rem;
+}
+
+select.inp {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, #7b8794 50%), linear-gradient(135deg, #7b8794 50%, transparent 50%);
+    background-position:
+        calc(100% - 16px) 18px,
+        calc(100% - 12px) 18px;
+    background-size:
+        6px 6px,
+        6px 6px;
+    background-repeat: no-repeat;
+}
+
 label {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    font-size: 0.92rem;
+    gap: 0.4rem;
+    font-size: 0.93rem;
     color: #333;
+
     > span {
         font-weight: 600;
     }
 }
 
-/* ====== grillas para la MISMA distribución ====== */
 .grid {
     display: grid;
-    gap: 0.8rem;
-    margin-top: 0.8rem;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
-/* 2 columnas en info crédito */
 .grid-cred {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(420px, 640px) 250px;
+    column-gap: 2rem;
+    row-gap: 0.9rem;
+    justify-content: start;
+    align-items: center;
+
+    .credito-inp {
+        grid-column: 1 / 2;
+        grid-row: 1;
+    }
 
     .dni-row {
+        grid-column: 1 / 2;
+        grid-row: 2;
         display: grid;
-        grid-template-columns: 1fr 40px; /* input + botón cuadrado */
-        gap: 0.5rem;
-        align-items: center;
+        grid-template-columns: 1fr 1px;
+        gap: 0rem;
+    }
+
+    .nombre-inp {
+        grid-column: 1 / 2;
+        grid-row: 3;
+    }
+
+    .doc-inp {
+        grid-column: 2 / 3;
+        grid-row: 3;
+        width: 100%;
+        max-width: 220px;
+        justify-self: start;
     }
 }
 
-/* 3 columnas en condiciones */
+.btn.btn-search {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .grid-cond {
     grid-template-columns: repeat(3, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
     align-items: end;
 
-    /* fecha + calcular en la misma "celda visual" a la derecha */
+    label > span {
+        margin-bottom: 0.25rem;
+        color: #3a3a3a;
+    }
+
     .fecha-calc {
         display: grid;
         grid-template-columns: 1fr auto;
-        gap: 0.6rem;
+        gap: 0.7rem;
         align-items: end;
-        label {
-            margin: 0;
+
+        .btn-calc {
+            height: $control-h;
+            padding: 0 1rem;
+            white-space: nowrap;
+            min-width: 100px;
         }
     }
 }
 
-/* 3 columnas en resultados */
 .grid-res {
     grid-template-columns: repeat(3, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
 }
 
-/* ====== botones ====== */
 .btn {
-    height: 38px;
-    padding: 0 0.9rem;
+    height: $control-h;
+    padding: 0 1rem;
     border: 1px solid #cfd4da;
     border-radius: 4px;
     background: #f5f5f5;
     cursor: pointer;
-    font-size: 0.92rem;
+    font-size: 0.93rem;
+    transition:
+        background 0.15s ease,
+        box-shadow 0.15s ease;
 
     &:hover {
         background: #eee;
     }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(18, 158, 171, 0.12);
+    }
 }
+
 .btn-search,
 .btn-calc {
     background: $teal;
@@ -147,52 +228,62 @@ label {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     &:hover {
         background: $teal-dark;
     }
 }
 
-/* ====== tabla de cuotas ====== */
 .table-wrap {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
 }
+
 .tabla {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.93rem;
+    font-size: 0.94rem;
 
     thead th {
         background: $teal;
         color: #fff;
         text-align: left;
-        padding: 0.6rem 0.75rem;
+        padding: 0.68rem 0.85rem;
         font-weight: 600;
         border-bottom: 1px solid $teal-dark;
     }
+
     tbody td {
-        padding: 0.55rem 0.75rem;
+        padding: 0.62rem 0.85rem;
         border-bottom: 1px solid $border;
         color: #2f2f2f;
     }
+
     .right {
         text-align: right;
     }
+
     .empty {
-        padding: 0.7rem;
+        padding: 0.75rem;
     }
 }
 
-/* ====== responsive ====== */
 @media (max-width: 1024px) {
     .grid-cond,
     .grid-res {
         grid-template-columns: 1fr 1fr;
     }
 }
+
 @media (max-width: 720px) {
     .grid-cred {
         grid-template-columns: 1fr;
+
+        .doc-inp {
+            justify-self: stretch;
+            max-width: none;
+        }
     }
+
     .grid-cond,
     .grid-res {
         grid-template-columns: 1fr;

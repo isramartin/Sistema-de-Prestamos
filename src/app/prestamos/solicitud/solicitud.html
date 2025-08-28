@@ -5,32 +5,34 @@
 
 <!-- Card principal -->
 <div class="card" [formGroup]="form">
-  <!-- Encabezado de la tarjeta -->
   <div class="section-title">INFORMACION DEL CREDITO</div>
 
-  <!-- Información del crédito (2 columnas como en la imagen) -->
   <div class="grid grid-cred">
-    <!-- fila 1 -->
-    <input class="inp readonly" type="text" value="00000021" readonly />
+    <!-- 1: Número del crédito -->
+    <input class="inp readonly credito-inp" type="text" value="00000021" readonly />
 
-    <!-- fila 2: DNI + botón buscar (misma línea) -->
+    <!-- 2: DNI + buscar -->
+    
     <div class="dni-row">
       <input class="inp" type="text" placeholder="Dni del cliente" formControlName="identificacion" />
-      <button class="btn btn-search" type="button" (click)="buscarCliente()">
-        <i class="fas fa-search"></i>
-      </button>
     </div>
 
-    <!-- fila 3: Nombre cliente (izq) y Documento (der, solo lectura) -->
-    <input class="inp readonly" type="text" placeholder="Nombre cliente" formControlName="nombreCliente" />
-    <input class="inp readonly" type="text" value="01" readonly />
+  <div></div>
+     <button class="btn btn-search" type="button" (click)="buscarCliente()">
+        <i class="fas fa-search"></i>
+      </button>
+
+       
+
+    <!-- 3: Nombre (izq) + 4: Documento (der, fijo) -->
+    <input class="inp readonly nombre-inp" type="text" placeholder="Nombre cliente" formControlName="nombreCliente" />
+    <input class="inp readonly doc-inp" type="text" value="01" readonly />
   </div>
 
   <hr class="sep" />
 
   <h3 class="center-title">Informacion del Prestamo</h3>
 
-  <!-- Condiciones del préstamo (3 columnas + botón calcular al lado de fecha) -->
   <div class="grid grid-cond">
     <label>
       <span>Monto Prestamo</span>
@@ -57,7 +59,6 @@
 
     <label>
       <span>Moneda</span>
-      <!-- solo visual para clonar la distribución de la imagen -->
       <select class="inp">
         <option selected disabled>Seleccione una moneda</option>
         <option>MXN</option>
@@ -65,7 +66,6 @@
       </select>
     </label>
 
-    <!-- Fecha + Calcular, en la misma fila -->
     <div class="fecha-calc">
       <label>
         <span>Fecha</span>
@@ -75,7 +75,6 @@
     </div>
   </div>
 
-  <!-- Resultados (3 columnas) -->
   <div class="grid grid-res">
     <label>
       <span>Monto por Cuota</span>
@@ -93,7 +92,6 @@
     </label>
   </div>
 
-  <!-- Tabla de cuotas -->
   <div class="table-wrap">
     <table class="tabla">
       <thead>

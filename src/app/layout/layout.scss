@@ -486,11 +486,6 @@ $topbar-h: 50px;
       }
     }
   }
-
-  .main {
-    /* Ya no hace falta tocar margin-left ni .topbar left:
-       siguen la variable --sidebar-current y animan sincronizados */
-  }
 }
 
 .hamburger {
