@@ -3,6 +3,7 @@ import { Layout } from './layout/layout';
 import { HomeComponent } from './home/components/home.component'; // ajusta ruta
 import { Solicitud } from './prestamos/solicitud/solicitud';
 import { Lista } from './prestamos/lista/lista';
+import { Aprobar } from './prestamos/aprobar/aprobar';
 import { Movimientos } from './caja/movimientos/movimientos';
 import { Apertura } from './caja/apertura/apertura';
 import { Clientes } from './clientes/clientes';
@@ -30,7 +31,7 @@ export const routes: Routes = [
         children: [
           { path: 'solicitud', component: Solicitud },
           { path: 'listado', component: Lista },
-          //   { path: 'aprobar', component: AprobarPrestamosComponent },
+          { path: 'aprobar', component: Aprobar },
         ],
       },
     ],

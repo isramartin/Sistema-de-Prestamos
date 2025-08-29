@@ -1,0 +1,95 @@
+<!-- Barra superior -->
+<div class="page-bar">
+  <h2>Aprobar Solicitud de Prestamos</h2>
+</div>
+
+<!-- Card -->
+<div class="card">
+  <div class="filters">
+    <div class="field">
+      <label>Fecha Inicio:</label>
+      <input class="inp" type="date" [(ngModel)]="fechaInicioISO" />
+    </div>
+    <div class="field">
+      <label>Fecha Fin:</label>
+      <input class="inp" type="date" [(ngModel)]="fechaFinISO" />
+    </div>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" (click)="buscar()">Buscar</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="left">
+      <button class="btn icon" title="Exportar CSV" (click)="exportCSV()"><i class="fa-solid fa-file-csv"></i></button>
+      <button class="btn icon" title="Imprimir" (click)="print()"><i class="fa-solid fa-print"></i></button>
+
+      <div class="select">
+        <label>Mostrar</label>
+        <select class="inp" [(ngModel)]="pageSize" (change)="setPageSize(pageSize)">
+          <option *ngFor="let n of pageSizeOptions" [ngValue]="n"> {{ n }} </option>
+        </select>
+        <span>rows</span>
+      </div>
+    </div>
+
+    <div class="right">
+      <label>Buscar:</label>
+      <input class="inp" type="text" [(ngModel)]="query" placeholder="Filtrar..." />
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Nro Prestamo</th>
+          <th>Cliente</th>
+          <th class="right">Monto</th>
+          <th class="right">Interes</th>
+          <th class="right">Cuotas</th>
+          <th>F. Pago</th>
+          <th>Usuario</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of filtered">
+          <td>{{ r.nro }}</td>
+          <td>{{ r.cliente }}</td>
+          <td class="right">{{ r.monto | number:'1.0-0' }}</td>
+          <td class="right">{{ r.interes | number:'1.0-2' }}</td>
+          <td class="right">{{ r.cuotas }}</td>
+          <td>{{ r.fpago }}</td>
+          <td>{{ r.usuario }}</td>
+          <td>{{ r.fecha }}</td>
+          <td>
+            <span class="badge"
+              [class.badge-green]="r.estado === 'aprobado'"
+              [class.badge-blue]="r.estado === 'finalizado'"
+              [class.badge-red]="r.estado === 'anulado'"
+              [class.badge-gray]="r.estado === 'pendiente'">
+              {{ r.estado }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn icon" title="Ver" (click)="ver(r)"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn icon" title="Aprobar" (click)="aprobar(r)"><i class="fa-solid fa-check"></i></button>
+            <button class="btn icon" title="Rechazar" (click)="rechazar(r)"><i class="fa-solid fa-xmark"></i></button>
+          </td>
+        </tr>
+        <tr *ngIf="filtered.length === 0">
+          <td colspan="10" class="empty">Sin resultados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pager">
+    <button class="btn" (click)="prev()">Anterior</button>
+    <span class="page">{{ page }}</span>
+    <button class="btn" (click)="next()">Siguiente</button>
+    <span class="hint">Mostrando {{ filtered.length }} de {{ total }} registros</span>
+  </div>
+</div>
