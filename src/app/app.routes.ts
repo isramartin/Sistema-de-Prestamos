@@ -7,6 +7,7 @@ import { Aprobar } from './prestamos/aprobar/aprobar';
 import { Movimientos } from './caja/movimientos/movimientos';
 import { Apertura } from './caja/apertura/apertura';
 import { Clientes } from './clientes/clientes';
+import { Empresa } from './empresa/empresa';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,8 @@ export const routes: Routes = [
           { path: 'aprobar', component: Aprobar },
         ],
       },
+
+      { path: 'empresa', component: Empresa },
     ],
   },
 ];

@@ -1,0 +1,58 @@
+<!-- Barra superior -->
+<div class="page-bar">
+  <h2>Configuración</h2>
+</div>
+
+<!-- Card -->
+<div class="card">
+  <div class="section-title">Configuración de la empresa</div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="grid-config">
+      <!-- Fila 1 -->
+      <label class="razon">
+        <span>Razon Social <b class="req">*</b></span>
+        <input class="inp" type="text" formControlName="razonSocial" placeholder="Razón social" />
+        <small class="error" *ngIf="f.razonSocial.touched && f.razonSocial.invalid">Requerido (mín. 3 caracteres).</small>
+      </label>
+
+      <label class="ruc">
+        <span>Ruc <b class="req">*</b></span>
+        <input class="inp" type="text" formControlName="ruc" placeholder="RUC" />
+        <small class="error" *ngIf="f.ruc.touched && f.ruc.invalid">Numérico (8–14 dígitos).</small>
+      </label>
+
+      <!-- Fila 2 -->
+      <label class="dir">
+        <span>Dirección <b class="req">*</b></span>
+        <input class="inp" type="text" formControlName="direccion" placeholder="Dirección fiscal" />
+        <small class="error" *ngIf="f.direccion.touched && f.direccion.invalid">Requerido.</small>
+      </label>
+
+      <label class="moneda">
+        <span>Moneda <b class="req">*</b></span>
+        <select class="inp" formControlName="moneda">
+          <option value="" disabled>Seleccione</option>
+          <option *ngFor="let m of monedas" [value]="m">{{ m }}</option>
+        </select>
+        <small class="error" *ngIf="f.moneda.touched && f.moneda.invalid">Seleccione una moneda.</small>
+      </label>
+
+      <label class="corr">
+        <span>Correlativo <b class="req">*</b></span>
+        <input class="inp" type="text" formControlName="correlativo" placeholder="00000000" (blur)="padCorrelativo()" />
+        <small class="error" *ngIf="f.correlativo.touched && f.correlativo.invalid">Numérico (hasta 12 dígitos).</small>
+      </label>
+
+      <label class="mail">
+        <span>Correo <b class="req">*</b></span>
+        <input class="inp" type="email" formControlName="correo" placeholder="correo@empresa.com" />
+        <small class="error" *ngIf="f.correo.touched && f.correo.invalid">Correo inválido.</small>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Guardar</button>
+    </div>
+  </form>
+</div>
