@@ -1,16 +1,36 @@
 <div class="moneda-container">
 
-  <div class="moneda-card">
+     <div class="card-header top-bar">
+    <h2 class="title">Listado de Moneda</h2>
+     <button (click)="abrirModal('nuevo')" class="btn btn-new" title="Nuevo">+ Nuevo</button>
+  </div>
+   <div class="card-header bottom-bar">
+    <div class="toolbar-left">
+      <button class="icon-btn">
+        <i class="fas fa-file-excel"></i> Excel
+      </button>
+      <button class="icon-btn">
+        <i class="fas fa-print"></i> Imprimir
+      </button>
+    </div>
+
+    <div class="search">
+      <label for="buscar">Buscar:</label>
+      <input id="buscar" type="text" class="form-control" placeholder="Buscar moneda...">
+    </div>
+  </div>
+
+
     <!-- CABECERA: título a la izquierda, acciones a la derecha -->
-    <div class="card-header">
+    <!-- <div class="card-header">
       <div class="title">Listado de Moneda</div>
 
       <div class="actions">
-        <!-- Toolbar izquierdo: export / impresora / select -->
+       Toolbar izquierdo: export / impresora / select -
         <div class="table-toolbar" aria-hidden="true">
-          <!-- reemplaza con iconos reales si los tienes -->
+           reemplaza con iconos reales si los tienes -
           <button class="btn btn-sm" title="Exportar Excel">
-            <!-- icono Excel -->
+            <icono Excel 
             <span>📥</span>
           </button>
           <button class="btn btn-sm" title="Imprimir">
@@ -24,7 +44,7 @@
           </select>
         </div>
 
-        <!-- Buscador + Nuevo (alineado a la derecha) -->
+         Buscador + Nuevo (alineado a la derecha) -
         <div style="display:flex; align-items:center; gap:12px;">
           <div class="search">
             <label style="margin-right:6px; font-size:0.95rem; color:#444;">Buscar:</label>
@@ -34,7 +54,7 @@
           <button (click)="abrirModal('nuevo')" class="btn btn-new" title="Nuevo">+ Nuevo</button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- CUERPO: tabla y pie -->
     <div class="card-body">
@@ -81,7 +101,7 @@
         </div>
       </div>
     </div>
-  </div>
+
 
   <!-- Modal: estructura lista, usa las mismas clases que el SCSS -->
 <div class="modal-backdrop" *ngIf="mostrarModal">
