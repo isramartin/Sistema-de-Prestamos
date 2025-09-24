@@ -265,15 +265,25 @@
 
     .modal {
         background: #fff;
-        padding: 25px 20px;
-        border-radius: 8px;
-        width: 420px;
+        border-radius: 6px;
+        width: 500px;
+        max-width: 95%;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         animation: scaleIn 0.3s ease;
+        overflow: hidden;
     }
 
-    .modal-header,
-    .modal-footer {
+    // .modal-header,
+    // .modal-footer {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    // }
+
+    .modal-header {
+        background-color: #343a40; /* gris oscuro */
+        color: #fff;
+        padding: 12px 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -281,9 +291,8 @@
 
     .modal-title {
         margin: 0;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         font-weight: 600;
-        color: #333;
     }
 
     .close {
@@ -292,10 +301,72 @@
         font-size: 22px;
         font-weight: bold;
         cursor: pointer;
-        color: #555;
+        color: #fff;
 
         &:hover {
-            color: #000;
+            color: #dcdcdc;
+        }
+    }
+
+    .modal-body {
+        padding: 20px;
+
+        .form-group {
+            margin-bottom: 1rem;
+
+            label {
+                display: block;
+                font-size: 0.95rem;
+                font-weight: 500;
+                margin-bottom: 6px;
+            }
+
+            input.form-control {
+                width: 100%;
+                padding: 8px 10px;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                font-size: 0.95rem;
+
+                &:focus {
+                    border-color: #80bdff;
+                    outline: none;
+                    box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+
+        .btn-secondary {
+            background: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background: #5a6268;
+            }
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background: #0069d9;
+            }
         }
     }
 
