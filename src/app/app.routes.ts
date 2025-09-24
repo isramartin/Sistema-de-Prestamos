@@ -9,6 +9,9 @@ import { Apertura } from './caja/apertura/apertura';
 import { Clientes } from './clientes/clientes';
 import { Empresa } from './empresa/empresa';
 import { Moneda } from './moneda/moneda';
+import { Usuarios } from './mantenimiento/usuarios/usuarios';
+import { Roles } from './mantenimiento/roles/roles';
+import { Configuracion } from './mantenimiento/configuracion/configuracion';
 
 export const routes: Routes = [
   {
@@ -40,6 +43,16 @@ export const routes: Routes = [
       { path: 'empresa', component: Empresa },
 
       { path: 'moneda', component: Moneda },
+
+      {
+        path: 'mantenimiento',
+        // component: Caja,
+        children: [
+          { path: 'usuarios', component: Usuarios },
+          { path: 'roles', component: Roles },
+          { path: 'configuracion', component: Configuracion },
+        ],
+      },
     ],
   },
 ];
