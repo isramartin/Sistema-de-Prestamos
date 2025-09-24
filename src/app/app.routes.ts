@@ -8,6 +8,7 @@ import { Movimientos } from './caja/movimientos/movimientos';
 import { Apertura } from './caja/apertura/apertura';
 import { Clientes } from './clientes/clientes';
 import { Empresa } from './empresa/empresa';
+import { Moneda } from './moneda/moneda';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,8 @@ export const routes: Routes = [
       },
 
       { path: 'empresa', component: Empresa },
+
+      { path: 'moneda', component: Moneda },
     ],
   },
 ];

@@ -1,1 +1,123 @@
-<p>moneda works!</p>
+<div class="moneda-container">
+  <div class="moneda-card">
+    <!-- CABECERA: título a la izquierda, acciones a la derecha -->
+    <div class="card-header">
+      <div class="title">Listado de Moneda</div>
+
+      <div class="actions">
+        <!-- Toolbar izquierdo: export / impresora / select -->
+        <div class="table-toolbar" aria-hidden="true">
+          <!-- reemplaza con iconos reales si los tienes -->
+          <button class="btn btn-sm" title="Exportar Excel">
+            <!-- icono Excel -->
+            <span>📥</span>
+          </button>
+          <button class="btn btn-sm" title="Imprimir">
+            <span>🖨️</span>
+          </button>
+
+          <select class="form-control" style="height:34px; padding:6px;" aria-label="Filas">
+            <option>Show 10 rows</option>
+            <option>Show 25 rows</option>
+            <option>Show 50 rows</option>
+          </select>
+        </div>
+
+        <!-- Buscador + Nuevo (alineado a la derecha) -->
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="search">
+            <label style="margin-right:6px; font-size:0.95rem; color:#444;">Buscar:</label>
+            <input type="text" placeholder="Buscar..." [(ngModel)]="filtro" class="form-control">
+          </div>
+
+          <button (click)="abrirModal('nuevo')" class="btn btn-new" title="Nuevo">+ Nuevo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUERPO: tabla y pie -->
+    <div class="card-body">
+      <!-- tabla -->
+      <table class="moneda-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Abreviatura</th>
+            <th>Simbolo</th>
+            <th>Descripcion</th>
+            <th style="text-align:right;">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let moneda of monedas | filtroMoneda:filtro">
+            <td>{{ moneda.nombre }}</td>
+            <td>{{ moneda.abreviatura }}</td>
+            <td>{{ moneda.simbolo }}</td>
+            <td>{{ moneda.descripcion }}</td>
+            <td style="display:flex; justify-content:flex-end; gap:8px;">
+              <button class="btn-sm btn-warning" (click)="abrirModal('editar', moneda)" title="Editar">
+                <!-- icono lápiz -->
+                ✏️
+              </button>
+              <button class="btn-sm btn-danger" (click)="eliminar(moneda)" title="Eliminar">
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- info / paginación similar a la imagen -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+        <div class="table-info">Mostrando (1 a 1) total de 1 registros</div>
+
+        <div class="pagination-controls" style="display:flex; align-items:center; gap:12px;">
+          <button class="btn" style="background:transparent; border:none; color:#444; cursor:pointer;">Anterior</button>
+
+          <input type="text" value="1" aria-label="pagina" style="width:42px; text-align:center; height:32px; border:1px solid #d7dde2; border-radius:4px;">
+
+          <button class="btn" style="background:transparent; border:none; color:#444; cursor:pointer;">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: estructura lista, usa las mismas clases que el SCSS -->
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <h5 id="modalTitle" class="modal-title">{{ modalModo === 'nuevo' ? 'Registrar Moneda' : 'Editar Moneda' }}</h5>
+      <button type="button" class="close" (click)="cerrarModal()">×</button>
+    </div>
+
+    <div class="modal-body">
+      <form #monedaForm="ngForm">
+        <div class="form-group">
+          <label>Nombre Moneda*</label>
+          <input type="text" [(ngModel)]="monedaSeleccionada.nombre" name="nombre" required class="form-control" placeholder="Nombre Moneda">
+        </div>
+
+        <div class="form-group">
+          <label>Abreviatura*</label>
+          <input type="text" [(ngModel)]="monedaSeleccionada.abreviatura" name="abreviatura" required class="form-control" placeholder="Abreviatura">
+        </div>
+
+        <div class="form-group">
+          <label>Simbolo*</label>
+          <input type="text" [(ngModel)]="monedaSeleccionada.simbolo" name="simbolo" required class="form-control" placeholder="Simbolo de la moneda">
+        </div>
+
+        <div class="form-group">
+          <label>Descripcion</label>
+          <input type="text" [(ngModel)]="monedaSeleccionada.descripcion" name="descripcion" class="form-control" placeholder="Descripcion">
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cerrarModal()">Cerrar</button>
+      <button class="btn-primary" (click)="guardarMoneda()">{{ modalModo === 'nuevo' ? 'Registrar' : 'Guardar' }}</button>
+    </div>
+  </div>
+</div>
