@@ -1,0 +1,368 @@
+.roles-container {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  background-color: #fff;
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #9c9c9c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+
+    h5 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .btn {
+      background-color: #20c0c7;
+      color: #fff;
+      border: none;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: background 0.3s;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &:hover {
+        background-color: #17a2b8;
+      }
+    }
+  }
+
+  .card-body {
+    padding: 1rem 1.25rem;
+
+    /* ─────────── Controles superiores ─────────── */
+    .table-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+
+      label {
+        font-weight: 500;
+        color: #333;
+        margin-right: 0.5rem;
+      }
+
+      select,
+      input {
+        border-radius: 4px;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.85rem;
+        border: 1px solid #ccc;
+        transition: all 0.2s ease-in-out;
+
+        &:focus {
+          outline: none;
+          border-color: #20c0c7;
+          box-shadow: 0 0 0 2px rgba(32, 192, 199, 0.2);
+        }
+      }
+
+      .form-select {
+        width: 80px;
+      }
+
+      .form-control {
+        width: 180px;
+      }
+    }
+
+    /* ─────────── Tabla ─────────── */
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      font-size: 0.9rem;
+
+      thead {
+        background-color: #20c0c7;
+        color: #fff;
+
+        th {
+          text-align: center;
+          font-weight: 600;
+          padding: 0.6rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      tbody {
+        tr {
+          transition: background 0.2s ease-in-out;
+
+          &:hover {
+            background-color: #f5f9fa;
+          }
+        }
+
+        td {
+          text-align: center;
+          vertical-align: middle;
+          padding: 0.5rem;
+        }
+
+        .btn-link {
+          text-decoration: none;
+          transition: all 0.2s ease;
+
+          i {
+            font-size: 1.2rem;
+          }
+
+          &:hover {
+            transform: scale(1.15);
+          }
+        }
+      }
+
+      th,
+      td {
+        border: 1px solid #dee2e6;
+      }
+    }
+
+    /* ─────────── Pie de tabla (paginación) ─────────── */
+    .table-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+
+      small {
+        color: #6c757d;
+      }
+
+      .page-input {
+        width: 50px;
+        text-align: center;
+        border-radius: 4px;
+      }
+
+      button {
+        border-radius: 4px;
+        padding: 0.3rem 0.75rem;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+    }
+  }
+}
+
+/* ─────────── Botones de acción ─────────── */
+tbody td {
+  .action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 4px;
+    border: none;
+    background-color: #f3f6f7;
+    transition: all 0.25s ease;
+    cursor: pointer;
+
+    i {
+      font-size: 1.1rem;
+      transition:
+        transform 0.25s ease,
+        color 0.25s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    &.edit {
+      color: #0d6efd;
+      &:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+        i {
+          transform: scale(1.15);
+          color: #0b5ed7;
+        }
+      }
+    }
+
+    &.delete {
+      color: #dc3545;
+      &:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+        i {
+          transform: scale(1.15);
+          color: #bb2d3b;
+        }
+      }
+    }
+
+    &.assign {
+      color: #ffc107;
+      &:hover {
+        background-color: rgba(255, 193, 7, 0.15);
+        i {
+          transform: scale(1.15);
+          color: #e0a800;
+        }
+      }
+    }
+  }
+}
+
+/* ─────────── Modal ─────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px); /* efecto elegante */
+  z-index: 1050; /* 👈 más bajo que el modal */
+}
+
+.modal.fade.show {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1065 !important; /* 👈 ahora encima del fondo */
+  animation: modalFadeIn 0.3s ease;
+}
+
+/* ─────────── Contenido del modal ─────────── */
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  max-width: 90%;
+  animation: modalPop 0.25s ease;
+
+  .modal-header {
+    background: linear-gradient(90deg, #20c0c7, #17a2b8);
+    color: #fff;
+    font-weight: 600;
+    padding: 0.9rem 1.2rem;
+
+    .btn-close {
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 1.25rem 1.5rem;
+
+    label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 0.5rem 0.6rem;
+      transition: all 0.2s ease;
+
+      &:focus {
+        border-color: #20c0c7;
+        box-shadow: 0 0 0 2px rgba(32, 192, 199, 0.2);
+      }
+    }
+  }
+
+  .modal-footer {
+    border-top: 1px solid #e9ecef;
+    padding: 0.9rem 1.2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    .btn {
+      border-radius: 6px;
+      font-size: 0.9rem;
+      padding: 0.45rem 0.9rem;
+      transition: all 0.25s ease;
+
+      &.btn-info {
+        background-color: #20c0c7;
+        color: #fff;
+        &:hover {
+          background-color: #17a2b8;
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-success {
+        background-color: #28a745;
+        color: #fff;
+        &:hover {
+          background-color: #218838;
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        &:hover {
+          background-color: #5a6268;
+        }
+      }
+    }
+  }
+}
+
+/* ─────────── Animaciones ─────────── */
+@keyframes modalPop {
+  from {
+    transform: translateY(-20px) scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -12,6 +12,7 @@ import { Moneda } from './moneda/moneda';
 import { Usuarios } from './mantenimiento/usuarios/usuarios';
 import { Roles } from './mantenimiento/roles/roles';
 import { Configuracion } from './mantenimiento/configuracion/configuracion';
+import { clientesR } from './reportes/clientes/clientesR';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,16 @@ export const routes: Routes = [
         // component: Caja,
         children: [
           { path: 'usuarios', component: Usuarios },
+          { path: 'roles', component: Roles },
+          { path: 'configuracion', component: Configuracion },
+        ],
+      },
+
+      {
+        path: 'reportes',
+        // component: Caja,
+        children: [
+          { path: 'clientes', component: clientesR },
           { path: 'roles', component: Roles },
           { path: 'configuracion', component: Configuracion },
         ],
