@@ -1,1 +1,181 @@
-<p>configuracion works!</p>
+<div class="roles-container card shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 fw-semibold">Configuración de Sistema</h5>
+    <button class="btn btn-info text-white btn-sm px-3" (click)="abrirNuevo()">
+      <i class="bi bi-plus-lg me-1"></i> Nuevo Usuario
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="table-controls d-flex justify-content-between align-items-center mb-3">
+      <div class="d-flex align-items-center">
+        <label class="me-2 fw-semibold">Ver</label>
+        <select class="form-select form-select-sm w-auto" [(ngModel)]="verCantidad">
+          <option>10</option>
+          <option>25</option>
+          <option>50</option>
+          <option>100</option>
+        </select>
+      </div>
+      <div class="d-flex align-items-center">
+        <label class="fw-semibold me-2">Buscar:</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          [(ngModel)]="busqueda"
+          placeholder="Buscar usuario..."
+        />
+      </div>
+    </div>
+
+    <table class="table table-bordered table-striped text-center align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Perfil</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filtrarPerfiles()">
+          <td>{{ p.id }}</td>
+          <td>{{ p.usuario }}</td>
+          <td>{{ p.descripcion }}</td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="p.estado === 'Activo' ? 'bg-success' : 'bg-secondary'"
+            >
+              {{ p.estado }}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn edit" (click)="abrirEditar(p)">
+              <i class="bi bi-pencil-square me-1"></i>Editar
+            </button>
+            <button class="action-btn delete" (click)="eliminarPerfil(p.id)">
+              <i class="bi bi-trash me-1"></i>Eliminar
+            </button>
+            <button class="action-btn assign" (click)="abrirAsignarMenu(p)">
+              <i class="bi bi-list-check me-1"></i>Permisos
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="perfiles.length === 0">
+          <td colspan="5" class="text-muted py-3">No hay usuarios registrados</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL NUEVO / EDITAR USUARIO -->
+<div class="modal-flotante" *ngIf="showModal">
+  <div class="modal-card animate__animated animate__fadeInDown">
+    <div class="modal-header bg-info text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-person-badge me-2"></i>
+        {{ editando ? 'Editar Usuario' : 'Nuevo Usuario' }}
+      </h5>
+      <button class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+    </div>
+
+    <div class="modal-body">
+      <label class="form-label fw-semibold">Nombre de usuario</label>
+      <input
+        type="text"
+        class="form-control form-control-sm mb-2"
+        [(ngModel)]="usuarioForm.usuario"
+      />
+
+      <label class="form-label fw-semibold">Perfil o Rol</label>
+      <input
+        type="text"
+        class="form-control form-control-sm mb-2"
+        [(ngModel)]="usuarioForm.descripcion"
+      />
+
+      <label class="form-label fw-semibold">Contraseña</label>
+      <input
+        type="password"
+        class="form-control form-control-sm mb-2"
+        [(ngModel)]="usuarioForm.contrasenia"
+        placeholder="Nueva contraseña"
+      />
+
+      <label class="form-label fw-semibold">Estado</label>
+      <select
+        class="form-select form-select-sm"
+        [(ngModel)]="usuarioForm.estado"
+      >
+        <option>Activo</option>
+        <option>Inactivo</option>
+      </select>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" (click)="cerrarModal()">
+        Cancelar
+      </button>
+      <button
+        class="btn btn-info text-white btn-sm"
+        (click)="guardarUsuario()"
+      >
+        <i class="bi bi-save me-1"></i>
+        {{ editando ? 'Guardar Cambios' : 'Registrar' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ASIGNAR PERMISOS -->
+<div class="modal-flotante" *ngIf="showPermisosModal">
+  <div class="modal-card animate__animated animate__fadeInDown">
+    <div class="modal-header bg-warning text-white">
+      <h5 class="modal-title">
+        <i class="bi bi-list-check me-2"></i>
+        Permisos — {{ perfilSeleccionado?.usuario }}
+      </h5>
+      <button class="btn-close btn-close-white" (click)="cerrarAsignarMenu()"></button>
+    </div>
+
+    <div class="modal-body">
+      <p class="text-muted small mb-3">
+        Marca las secciones del sistema que este usuario podrá usar.
+      </p>
+
+      <div class="menu-grid">
+        <div
+          class="menu-card"
+          *ngFor="let op of opcionesSistema"
+          [class.selected]="opcionesSeleccionadas.includes(op)"
+          (click)="toggleOpcion(op)"
+        >
+          <div class="menu-icon">
+            <i class="bi" [ngClass]="{
+              'bi-speedometer': op === 'Dashboard',
+              'bi-people': op === 'Usuarios',
+              'bi-box-seam': op === 'Productos',
+              'bi-cart-check': op === 'Ventas',
+              'bi-bar-chart': op === 'Reportes',
+              'bi-gear': op === 'Configuración',
+              'bi-person-vcard': op === 'Clientes'
+            }"></i>
+          </div>
+          <span class="menu-text">{{ op }}</span>
+          <i class="bi bi-check-circle-fill check-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" (click)="cerrarAsignarMenu()">Cancelar</button>
+      <button class="btn btn-warning btn-sm text-white" (click)="guardarAsignacion()">
+        <i class="bi bi-save me-1"></i>Guardar
+      </button>
+    </div>
+  </div>
+</div>
